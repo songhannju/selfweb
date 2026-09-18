@@ -2,8 +2,8 @@
 
 :root {
   font-family: "Avenir Next", "Helvetica Neue", sans-serif;
-  color: #171717;
-  background: #f3efe9;
+  color: #e8ece8;
+  background: #0d1110;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -15,11 +15,52 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  background: #0d1110;
+}
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card,
+.skill-pill,
+.timeline-card {
+  opacity: 0;
+  transform: translateY(16px);
+  transition-delay: var(--delay, 0ms);
+  transition-duration: 650ms;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal-section.is-visible .project-card,
+.reveal-section.is-visible .skill-pill,
+.reveal-section.is-visible .timeline-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section,
+  .project-card,
+  .skill-pill,
+  .timeline-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 ::selection {
-  color: #f7faf7;
-  background: #2f5d54;
+  color: #07100c;
+  background: #8fc2af;
 }
 
 @media (prefers-reduced-motion: reduce) {
