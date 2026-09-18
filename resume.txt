@@ -1,0 +1,28 @@
+Han Song
+Backend Engineer • AI Infrastructure Explorer
+
+Summary
+I am a backend engineer with experience in C# and .NET, focused on building stable, scalable, and maintainable systems. I enjoy solving reliability and architecture problems and am now expanding into AI infrastructure, model serving, and MLOps-oriented engineering.
+
+Core Skills
+- C# / .NET / .NET Core
+- Python
+- SQL
+- API Design
+- Microservices
+- Database Design
+- Docker
+- Git / CI/CD
+- Monitoring and Logging
+- Model Serving and AI Infra exploration
+
+Experience Highlights
+- Built and maintained business-critical backend services with emphasis on availability and maintainability.
+- Designed system integrations, workflows, and application logic supporting operational efficiency.
+- Explored AI infrastructure topics including model serving, deployment patterns, and modern engineering practices.
+
+Contact
+Email: hello@hansong.dev
+LinkedIn: https://www.linkedin.com/in/hansong
+GitHub: https://github.com/hansong
+Location: Shanghai, China
