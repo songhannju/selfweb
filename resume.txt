@@ -1,28 +1,38 @@
 Han Song
-Backend Engineer • AI Infrastructure Explorer
+Alpharetta, Georgia
+Email: songhannju@gmail.com
+Tel: (864) 207-2627
 
-Summary
-I am a backend engineer with experience in C# and .NET, focused on building stable, scalable, and maintainable systems. I enjoy solving reliability and architecture problems and am now expanding into AI infrastructure, model serving, and MLOps-oriented engineering.
+Professional Summary
+Senior .NET Engineer with 8+ years of experience designing and building scalable backend systems, distributed services, and cloud-native applications. Deep expertise in C#, ASP.NET Core, REST APIs, Azure Cloud, and CI/CD automation. Strong track record of improving system reliability, reducing defects, and delivering secure, high-performance enterprise software.
 
-Core Skills
-- C# / .NET / .NET Core
-- Python
-- SQL
-- API Design
-- Microservices
-- Database Design
-- Docker
-- Git / CI/CD
-- Monitoring and Logging
-- Model Serving and AI Infra exploration
+Work Experience
 
-Experience Highlights
-- Built and maintained business-critical backend services with emphasis on availability and maintainability.
-- Designed system integrations, workflows, and application logic supporting operational efficiency.
-- Explored AI infrastructure topics including model serving, deployment patterns, and modern engineering practices.
+Fiserv Inc. — Alpharetta, GA
+Senior Software Engineer — Dec 2022 - Sep 2026
+- Designed and shipped payee fraud validation for outbound payments, integrating Fiserv's internal Verify Now service to screen payees in real time before funds moved.
+- Built event-driven email notifications for bank-account updates, package changes, and promo changes, keeping clients informed of key account events across the platform.
+- Built a fault-tolerant, checkpoint-based processor with idempotent retries and rollback, migrating over 22,000 subscribers per run.
+- Delivered check-clearing-date visibility at payment time, surfacing expected clear dates in the client payment view to give small-business users clearer cash-flow insight.
+- Partnered with product owners and platform teams on design and code reviews across the CashFlow Central platform.
 
-Contact
-Email: hello@hansong.dev
-LinkedIn: https://www.linkedin.com/in/hansong
-GitHub: https://github.com/hansong
-Location: Shanghai, China
+Fiserv Inc.
+Senior QA Automation Engineer — Jan 2021 - Dec 2022
+QA Automation Engineer — July 2018 - Dec 2021
+- Built banking web-services automation frameworks for SOAP and REST APIs; partnered with developers, test engineers, and product owners to design, implement, and maintain automated test suites, reducing bugs 10-25% year over year.
+- Consolidated and tracked defect backlogs across the business unit and reported bug-tracking and defect-resolution metrics to the team and IT management, improving bug-tracking efficiency by 50%.
+- Designed and executed validation for a security-gateway migration across impacted applications and environments.
+
+Computer Packages Inc. — Rockville, MD
+Web Developer — May 2017 - June 2018
+- Developed and maintained client-server web applications using ASP.NET MVC, C#, JavaScript, HTML, and CSS.
+- Migrated application systems from disparate data sources into SQL Server, performing data analysis, mapping, conversion testing, and data comparison.
+
+Education
+- M.S., Computer Science — Clemson University
+- M.S., Electrical Engineering — Clemson University
+- B.S., Biochemistry — Nanjing University
+
+Skills
+Languages: Java, C#, JavaScript, HTML
+Technologies and knowledge: Azure, Jira, SQL, ASP.NET, Postman, SoapSonar, Harness, GitHub
