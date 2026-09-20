@@ -203,6 +203,7 @@ function CapabilitySphere() {
   }, []);
 
   function handlePointerMove(event) {
+    if (event.pointerType === 'touch') return;
     const bounds = event.currentTarget.getBoundingClientRect();
     const x = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
     const y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
