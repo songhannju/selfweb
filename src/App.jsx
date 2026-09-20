@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SoftAurora from './components/SoftAurora';
 import Blog from './components/Blog';
+import BlogTicker from './components/BlogTicker';
 
 const skills = ['Java', 'C#', 'JavaScript', 'HTML', 'Azure', 'Jira', 'SQL', 'ASP.NET', 'Postman', 'SoapSonar', 'Harness', 'GitHub'];
 
@@ -99,12 +100,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="relative mx-auto h-[31rem] w-full max-w-md">
-              <div className="absolute left-2 top-10 rounded-2xl border border-white/10 bg-[#17201c]/80 p-4 shadow-xl backdrop-blur-md transition-transform hover:-translate-y-1"><span className="block text-[0.65rem] uppercase tracking-[0.14em] text-[#8d9890]">Backend Systems</span><strong className="mt-1 block">Scalable services</strong></div>
-              <div className="absolute right-0 top-28 rounded-2xl border border-white/10 bg-[#17201c]/80 p-4 shadow-xl backdrop-blur-md transition-transform hover:-translate-y-1"><span className="block text-[0.65rem] uppercase tracking-[0.14em] text-[#8d9890]">Cloud Native</span><strong className="mt-1 block">Azure + CI/CD</strong></div>
-              <div className="absolute bottom-12 left-20 rounded-2xl border border-white/10 bg-[#17201c]/80 p-4 shadow-xl backdrop-blur-md transition-transform hover:-translate-y-1"><span className="block text-[0.65rem] uppercase tracking-[0.14em] text-[#8d9890]">Quality Engineering</span><strong className="mt-1 block">10–25% fewer bugs</strong></div>
-              <div className="absolute inset-x-16 bottom-10 top-20 grid place-items-center rounded-[2.25rem] border border-white/10 bg-white/[0.04] shadow-[0_35px_80px_rgba(0,0,0,0.32)] backdrop-blur-sm"><span className="font-serif text-8xl tracking-[-0.1em] text-[#8fc2af]">HS</span></div>
-            </div>
+            <CapabilitySphere />
           </div>
         </section>
 
@@ -115,6 +111,7 @@ export default function App() {
               <div className="space-y-5 text-[#9aa59d]"><p>Senior .NET Engineer with 8+ years of experience designing and building scalable backend systems, distributed services, and cloud-native applications.</p><p>Deep expertise in C#, ASP.NET Core, REST APIs, Azure Cloud, and CI/CD automation.</p><p>Strong track record of improving system reliability, reducing defects, and delivering secure, high-performance enterprise software.</p></div>
               <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.05] p-5 text-sm leading-7 text-[#9aa59d] shadow-sm"><p><strong className="text-[#e8ece8]">Location:</strong> Alpharetta, Georgia</p><p><strong className="text-[#e8ece8]">Email:</strong> songhannju@gmail.com</p><p><strong className="text-[#e8ece8]">Phone:</strong> (864) 207-2627</p></aside>
             </div>
+            <BlogTicker onOpenBlog={() => setActiveView('blog')} />
           </div>
         </section>
 
@@ -176,4 +173,42 @@ function GlassReveal({ isRevealed, onReveal }) {
 
 function SectionHeading({ eyebrow, title }) {
   return <div className="mb-9 max-w-2xl"><p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#8fc2af]">{eyebrow}</p><h2 className="font-serif text-4xl leading-tight tracking-[-0.045em] text-[#e8ece8] md:text-5xl">{title}</h2></div>;
+}
+
+function CapabilitySphere() {
+  const [rotation, setRotation] = useState({ x: -7, y: 0 });
+  const [autoRotation, setAutoRotation] = useState(0);
+  const nodes = [
+    { label: 'Backend Systems', value: 'Scalable services', x: -8, y: -126, z: 58, size: 'large' },
+    { label: 'Cloud Native', value: 'Azure + CI/CD', x: 126, y: -48, z: -34, size: 'small' },
+    { label: 'API & Integrations', value: 'Secure connections', x: -128, y: -30, z: -48, size: 'small' },
+    { label: 'Reliability Engineering', value: 'Fault-tolerant services', x: 84, y: 82, z: 52, size: 'medium' },
+    { label: 'Quality Engineering', value: '10–25% fewer bugs', x: -82, y: 100, z: -54, size: 'small' },
+    { label: 'Data & SQL', value: 'Clear decisions', x: 18, y: 12, z: -112, size: 'small' },
+    { label: 'Distributed Systems', value: 'Resilient architecture', x: 50, y: -102, z: -72, size: 'medium' },
+    { label: 'Testing & QA', value: 'Confident releases', x: -66, y: -70, z: 92, size: 'small' },
+  ];
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let frame;
+    const animate = (time) => {
+      setAutoRotation((time * 0.006) % 360);
+      frame = window.requestAnimationFrame(animate);
+    };
+
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  function handlePointerMove(event) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+    const y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+    setRotation({ x: (0.5 - y) * 20, y: (x - 0.5) * 24 });
+  }
+
+  const totalY = autoRotation + rotation.y;
+  return <div className="capability-sphere" onPointerMove={handlePointerMove} onMouseMove={handlePointerMove} onPointerLeave={() => setRotation({ x: -7, y: 0 })} onMouseLeave={() => setRotation({ x: -7, y: 0 })} style={{ transform: `rotateX(${rotation.x}deg) rotateY(${totalY}deg)` }} aria-label="Interactive engineering capabilities"><div className="sphere-globe" aria-hidden="true"><span className="globe-line globe-line-latitude-top" /><span className="globe-line globe-line-latitude-middle" /><span className="globe-line globe-line-latitude-bottom" /><span className="globe-line globe-line-longitude-left" /><span className="globe-line globe-line-longitude-center" /><span className="globe-line globe-line-longitude-right" /></div>{nodes.map((node) => { const depthScale = 0.88 + ((node.z + 60) / 120) * 0.1; return <div className={`capability-card capability-card-${node.size} absolute rounded-2xl border border-white/10 bg-[#17201c]/90 shadow-xl backdrop-blur-md`} style={{ left: '50%', top: '50%', transform: `translate3d(calc(-50% + ${node.x}px), calc(-50% + ${node.y}px), ${node.z}px) scale(${depthScale}) rotateY(${-totalY}deg) rotateX(${-rotation.x}deg)` }} key={node.label}><span className="block uppercase tracking-[0.14em] text-[#8d9890]">{node.label}</span><strong className="mt-1 block">{node.value}</strong></div>; })}</div>;
 }

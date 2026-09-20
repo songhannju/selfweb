@@ -85,6 +85,40 @@ section {
   white-space: pre-wrap;
 }
 
+.blog-ticker-item {
+  min-height: 10rem;
+  animation: blog-news-cycle 12s linear both;
+}
+
+@keyframes blog-news-cycle {
+  from {
+    opacity: 0;
+    transform: translateY(-105%);
+  }
+
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  88% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-ticker-item {
+    min-height: 0;
+    animation: none;
+  }
+}
+
 .project-card,
 .skill-pill,
 .timeline-card {
@@ -94,6 +128,110 @@ section {
   transition-duration: 650ms;
   transition-property: opacity, transform;
   transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.capability-sphere {
+  position: relative;
+  height: 31rem;
+  width: 100%;
+  max-width: 32rem;
+  margin-inline: auto;
+  perspective: 900px;
+  transform-style: preserve-3d;
+  transition: transform 80ms linear;
+  will-change: transform;
+}
+
+.sphere-globe {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 17rem;
+  height: 17rem;
+  border: 1px solid rgb(143 194 175 / 0.24);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 28%, rgb(143 194 175 / 0.16), rgb(23 32 28 / 0.08) 48%, rgb(7 16 12 / 0.02) 72%, transparent 74%);
+  box-shadow: inset -24px -18px 42px rgb(0 0 0 / 0.24), inset 14px 10px 34px rgb(143 194 175 / 0.08), 0 0 70px rgb(143 194 175 / 0.08);
+  transform-style: preserve-3d;
+}
+
+.globe-line {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(143 194 175 / 0.2);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+}
+
+.globe-line-latitude-top {
+  inset: 17% 0 auto;
+  height: 32%;
+}
+
+.globe-line-latitude-middle {
+  inset: 38% 0 auto;
+  height: 24%;
+}
+
+.globe-line-latitude-bottom {
+  inset: auto 0 17%;
+  height: 32%;
+}
+
+.globe-line-longitude-left {
+  transform: rotateY(58deg);
+}
+
+.globe-line-longitude-center {
+  transform: rotateY(0deg);
+}
+
+.globe-line-longitude-right {
+  transform: rotateY(-58deg);
+}
+
+.capability-card {
+  cursor: pointer;
+  pointer-events: auto;
+  transform-style: preserve-3d;
+  transition: border-color 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+  will-change: transform;
+  white-space: nowrap;
+}
+
+.capability-card-small {
+  padding: 0.65rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+.capability-card-small span {
+  font-size: 0.55rem;
+}
+
+.capability-card-medium {
+  padding: 0.8rem 1rem;
+  font-size: 0.86rem;
+}
+
+.capability-card-medium span {
+  font-size: 0.6rem;
+}
+
+.capability-card-large {
+  padding: 0.95rem 1.15rem;
+  font-size: 0.95rem;
+}
+
+.capability-card-large span {
+  font-size: 0.65rem;
+}
+
+.capability-card:hover {
+  border-color: rgb(143 194 175 / 0.35);
+  filter: brightness(1.12);
+  box-shadow: 0 18px 42px rgb(0 0 0 / 0.28), 0 0 0 1px rgb(143 194 175 / 0.08);
 }
 
 .reveal-section.is-visible .project-card,
