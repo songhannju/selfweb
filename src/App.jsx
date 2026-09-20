@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import SoftAurora from './components/SoftAurora';
+import Blog from './components/Blog';
 
 const skills = ['Java', 'C#', 'JavaScript', 'HTML', 'Azure', 'Jira', 'SQL', 'ASP.NET', 'Postman', 'SoapSonar', 'Harness', 'GitHub'];
 
@@ -26,6 +27,29 @@ const experienceHighlights = [
 
 export default function App() {
   const [isRevealed, setIsRevealed] = useState(false);
+  const [activeView, setActiveView] = useState('resume');
+  const [pendingSection, setPendingSection] = useState(null);
+
+  function navigateToSection(sectionId) {
+    setActiveView('resume');
+    setPendingSection(sectionId);
+  }
+
+  useEffect(() => {
+    if (activeView !== 'resume' || !pendingSection) return undefined;
+
+    const frame = window.requestAnimationFrame(() => {
+      const section = document.getElementById(pendingSection);
+      if (section) {
+        const top = section.getBoundingClientRect().top + window.scrollY - 88;
+        window.history.replaceState(null, '', `#${pendingSection}`);
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+      setPendingSection(null);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeView, pendingSection]);
 
   useEffect(() => {
     const revealItems = document.querySelectorAll('[data-reveal]');
@@ -44,22 +68,23 @@ export default function App() {
     revealItems.forEach((item) => observer.observe(item));
 
     return () => observer.disconnect();
-  }, []);
+  }, [activeView]);
 
   return (
-    <div className={`${isRevealed ? 'min-h-screen' : 'h-screen overflow-hidden'} overflow-x-clip bg-[#0d1110] text-[#e8ece8]`}>
+    <div className="min-h-screen overflow-x-clip bg-[#0d1110] text-[#e8ece8]">
       <GlassReveal isRevealed={isRevealed} onReveal={() => setIsRevealed(true)} />
       <ScrollProgress />
       <header className="sticky top-0 z-20 border-b border-white/[0.08] bg-[#0d1110]/80 backdrop-blur-xl">
         <nav className="mx-auto flex min-h-18 w-[min(1080px,calc(100%-48px))] items-center justify-between">
-          <a className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/[0.06] font-semibold tracking-[-0.08em] shadow-sm" href="#home" aria-label="Han Song home">HS</a>
-          <div className="hidden items-center gap-7 text-[0.78rem] uppercase tracking-[0.14em] text-[#8d9890] md:flex">
-            {['About', 'Skills', 'Projects', 'Experience', 'Education', 'Contact'].map((item) => <a className="transition-colors hover:text-[#8fc2af]" href={`#${item.toLowerCase()}`} key={item}>{item}</a>)}
+          <button className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/[0.06] font-semibold tracking-[-0.08em] shadow-sm" type="button" onClick={() => navigateToSection('home')} aria-label="Han Song home">HS</button>
+          <div className="flex max-w-[calc(100%-60px)] items-center gap-4 overflow-x-auto py-3 text-[0.68rem] uppercase tracking-[0.12em] text-[#8d9890] [scrollbar-width:none] md:gap-7 md:text-[0.78rem] md:tracking-[0.14em]">
+            {['About', 'Skills', 'Projects', 'Experience', 'Education', 'Contact'].map((item) => <a className="transition-colors hover:text-[#8fc2af]" href={`#${item.toLowerCase()}`} onClick={(event) => { event.preventDefault(); navigateToSection(item.toLowerCase()); }} key={item}>{item}</a>)}
+            <button className={`transition-colors hover:text-[#e8b66b] ${activeView === 'blog' ? 'text-[#e8b66b]' : ''}`} type="button" onClick={() => setActiveView('blog')}>BLOG</button>
           </div>
         </nav>
       </header>
 
-      <main>
+      {activeView === 'blog' ? <Blog onBack={() => setActiveView('resume')} /> : <main>
         <section id="home" className="relative isolate min-h-[calc(100svh-72px)] overflow-hidden">
           <SoftAurora />
           <div className="relative mx-auto grid min-h-[calc(100svh-72px)] w-[min(1080px,calc(100%-48px))] items-center gap-14 py-20 lg:grid-cols-[1.05fr_0.95fr]">
@@ -102,7 +127,7 @@ export default function App() {
         <section id="education" data-reveal className="reveal-section border-t border-white/[0.07] py-24"><div className="mx-auto w-[min(820px,calc(100%-48px))]"><SectionHeading eyebrow="Education" title="Academic foundation." /><div className="grid gap-3 text-[#c2cbc4]"><p><strong className="text-[#e8ece8]">M.S., Computer Science</strong> — Clemson University</p><p><strong className="text-[#e8ece8]">M.S., Electrical Engineering</strong> — Clemson University</p><p><strong className="text-[#e8ece8]">B.S., Biochemistry</strong> — Nanjing University</p></div></div></section>
 
         <section id="contact" data-reveal className="reveal-section border-t border-white/[0.07] py-24"><div className="mx-auto w-[min(820px,calc(100%-48px))]"><SectionHeading eyebrow="Contact" title="Connect with Han Song." /><div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-sm"><div className="grid gap-3 text-sm text-[#9aa59d] md:grid-cols-2"><a className="transition hover:text-[#8fc2af]" href="mailto:songhannju@gmail.com">songhannju@gmail.com</a><a className="transition hover:text-[#8fc2af]" href="tel:+18642072627">(864) 207-2627</a><span>Alpharetta, Georgia</span></div></div></div></section>
-      </main>
+      </main>}
       <footer className="border-t border-white/[0.07] py-8 text-center text-xs text-[#8d9890]">© 2026 Han Song. Built with care.</footer>
     </div>
   );
@@ -131,7 +156,7 @@ function GlassReveal({ isRevealed, onReveal }) {
       className={`fixed inset-0 z-50 grid place-items-center overflow-hidden bg-[#b9cec2]/[0.08] backdrop-blur-[30px] transition-[opacity,backdrop-filter] duration-1000 ease-out ${isRevealed ? 'pointer-events-none opacity-0 backdrop-blur-0' : 'opacity-100'}`}
       aria-hidden={isRevealed}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(115deg,rgba(230,241,234,0.12)_0%,transparent_38%,rgba(91,130,111,0.08)_100%),url('data:image/svg+xml,%3Csvg viewBox=%220 0 160 160%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.9%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%22.18%22/%3E%3C/svg%3E)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[#0d1110]/90 opacity-95 [background-image:linear-gradient(115deg,rgba(230,241,234,0.12)_0%,transparent_38%,rgba(91,130,111,0.08)_100%),url('data:image/svg+xml,%3Csvg viewBox=%220 0 160 160%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.9%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22 opacity=%22.18%22/%3E%3C/svg%3E)]" />
       <button
         className="group relative grid size-48 place-items-center rounded-full border border-white/20 bg-[#17221d]/55 text-center shadow-[0_24px_80px_rgba(0,0,0,0.3)] backdrop-blur-xl transition duration-500 hover:scale-[1.03] hover:border-[#8fc2af]/50 focus:outline-none focus:ring-2 focus:ring-[#8fc2af]/60"
         type="button"
