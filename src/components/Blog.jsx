@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { supabase } from '../lib/supabase';
+import { supabase, supabaseConfigError } from '../lib/supabase';
 
 const emptyDraft = { title: '', body: '', date: new Date().toISOString().slice(0, 10) };
 const emojis = ['😀', '😂', '😍', '🤔', '😅', '🎉', '🚀', '✨', '💡', '🔥', '🛠️', '☕', '❤️', '👍', '🙌', '🌱'];
@@ -25,6 +25,12 @@ export default function Blog({ onBack }) {
   const editorRef = useRef(null);
 
   useEffect(() => {
+    if (!supabase) {
+      setErrorMessage(supabaseConfigError);
+      setIsLoading(false);
+      return undefined;
+    }
+
     async function loadPosts() {
       const { data, error } = await supabase
         .from('blog_posts')
@@ -80,6 +86,10 @@ export default function Blog({ onBack }) {
   async function publishPost(event) {
     event.preventDefault();
     if (!draft.title.trim() || !draft.body.trim()) return;
+    if (!supabase) {
+      setErrorMessage(supabaseConfigError);
+      return;
+    }
     setIsSaving(true);
     setErrorMessage('');
 
@@ -124,6 +134,10 @@ export default function Blog({ onBack }) {
 
   async function deletePost(id) {
     setErrorMessage('');
+    if (!supabase) {
+      setErrorMessage(supabaseConfigError);
+      return;
+    }
     const { error } = await supabase.from('blog_posts').delete().eq('id', id);
     if (error) setErrorMessage(error.message);
     else setPosts((currentPosts) => currentPosts.filter((post) => post.id !== id));
