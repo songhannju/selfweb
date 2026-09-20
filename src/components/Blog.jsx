@@ -69,6 +69,18 @@ export default function Blog({ onBack }) {
     if (code?.trim()) runEditorCommand('insertHTML', `<pre><code>${DOMPurify.sanitize(code.trim(), { ALLOWED_TAGS: [], ALLOWED_ATTR: [] })}</code></pre>`);
   }
 
+  function pasteFormattedContent(event) {
+    const html = event.clipboardData.getData('text/html');
+    if (!html) return;
+
+    event.preventDefault();
+    const cleanHtml = DOMPurify.sanitize(html, {
+      ALLOWED_TAGS: ['br', 'div', 'h1', 'h2', 'h3', 'p', 'span', 'strong', 'em', 'u', 'ul', 'ol', 'li', 'a', 'pre', 'code'],
+      ALLOWED_ATTR: ['href', 'target', 'rel', 'style'],
+    });
+    runEditorCommand('insertHTML', cleanHtml);
+  }
+
   function chooseImage(event) {
     const [file] = event.target.files;
     if (!file) return;
@@ -189,7 +201,7 @@ export default function Blog({ onBack }) {
                 <button className="rounded-lg px-2.5 py-1.5 text-sm transition hover:bg-white/10" type="button" onMouseDown={(event) => event.preventDefault()} onClick={addCodeBlock} aria-label="Insert code block">Code</button>
               </div>
             </div>
-            <div className="mt-2 min-h-64 w-full rounded-xl border border-white/10 bg-[#111613] px-4 py-3 text-sm leading-7 text-[#e8ece8] outline-none transition focus:border-[#e8b66b]/70 empty:before:pointer-events-none empty:before:text-[#68736c] empty:before:content-[attr(data-placeholder)]" contentEditable ref={editorRef} role="textbox" aria-multiline="true" data-placeholder="Write your note here. Select text to format it, use the emoji buttons above, or insert a link." onInput={(event) => { const body = event.currentTarget.innerHTML; setDraft((currentDraft) => ({ ...currentDraft, body })); }} />
+            <div className="mt-2 min-h-64 w-full rounded-xl border border-white/10 bg-[#111613] px-4 py-3 text-sm leading-7 text-[#e8ece8] outline-none transition focus:border-[#e8b66b]/70 empty:before:pointer-events-none empty:before:text-[#68736c] empty:before:content-[attr(data-placeholder)]" contentEditable ref={editorRef} role="textbox" aria-multiline="true" data-placeholder="Write your note here. Select text to format it, use the emoji buttons above, or insert a link." onPaste={pasteFormattedContent} onInput={(event) => { const body = event.currentTarget.innerHTML; setDraft((currentDraft) => ({ ...currentDraft, body })); }} />
             <div className="mt-5 flex items-center justify-between gap-4"><p className="text-xs leading-5 text-[#718078]">Choose an emoji above, select text for formatting, or use Link to add a hyperlink. Code opens a snippet prompt.</p><button className="shrink-0 rounded-full bg-[#8fc2af] px-5 py-3 text-sm font-bold text-[#07100c] transition hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-60" type="submit" disabled={isSaving}>{isSaving ? 'Saving...' : 'Publish note'}</button></div>
           </form>
         )}
