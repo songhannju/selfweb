@@ -209,9 +209,66 @@ export default function Blog({ onBack }) {
         <div className="mt-12 space-y-6">
           {isLoading ? <div className="rounded-3xl border border-white/10 bg-white/[0.04] px-6 py-16 text-center text-sm text-[#8d9890]">Loading notes...</div> : posts.length === 0 ? <div className="rounded-3xl border border-dashed border-white/15 px-6 py-16 text-center"><p className="text-3xl" aria-hidden="true">📝</p><h2 className="mt-4 font-serif text-3xl tracking-[-0.04em]">Your first note is waiting.</h2><p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[#8d9890]">Write down the question you are carrying, the bug you finally understood, or the idea you want to return to.</p></div> : posts.map((post) => <article className="group rounded-3xl border border-white/10 bg-white/[0.045] p-6 shadow-sm transition hover:border-[#e8b66b]/30 hover:bg-white/[0.065] md:p-8" key={post.id}><div className="flex items-start justify-between gap-5"><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#e8b66b]">{formatDate(post.published_at)}</p><h2 className="mt-3 font-serif text-3xl tracking-[-0.04em] text-[#e8ece8] md:text-4xl">{post.title}</h2></div><button className="text-xs text-[#68736c] opacity-0 transition hover:text-[#d98f8f] group-hover:opacity-100" type="button" onClick={() => deletePost(post.id)} aria-label={`Delete ${post.title}`}>Delete</button></div><div className="mt-7"><PostBody body={post.body} /></div></article>)}
         </div>
+        {!isLoading && <BlogContributions posts={posts} />}
       </div>
     </main>
   );
+}
+
+function BlogContributions({ posts }) {
+  const today = new Date();
+  const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const startDate = new Date(endDate);
+  startDate.setDate(startDate.getDate() - 364);
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+  const days = [];
+  const counts = new Map();
+  posts.forEach((post) => {
+    const key = post.published_at;
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+
+  for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
+    const key = date.toISOString().slice(0, 10);
+    days.push({ key, count: counts.get(key) || 0, date: new Date(date) });
+  }
+
+  const activeDays = days.filter((day) => day.count > 0).length;
+  const recentPosts = [...posts].sort((first, second) => new Date(second.published_at) - new Date(first.published_at)).slice(0, 3);
+  const monthSummary = [...posts.reduce((summary, post) => {
+    const month = new Date(`${post.published_at}T12:00:00`).toLocaleDateString('en', { month: 'short', year: 'numeric' });
+    summary.set(month, (summary.get(month) || 0) + 1);
+    return summary;
+  }, new Map())].slice(0, 4);
+  const monthLabels = days.reduce((labels, day, index) => {
+    const weekIndex = Math.floor(index / 7);
+    const isFirstDisplayedWeek = index === 0;
+    const isMonthStart = day.date.getDate() === 1;
+    if ((isFirstDisplayedWeek || isMonthStart) && labels[labels.length - 1]?.index !== weekIndex) {
+      labels.push({ label: day.date.toLocaleDateString('en', { month: 'short' }), index: weekIndex });
+    }
+    return labels;
+  }, []);
+
+  return <section className="blog-contributions mt-16 border-t border-white/[0.08] pt-10" aria-labelledby="blog-contributions-title">
+    <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#8fc2af]">Writing activity</p><h2 id="blog-contributions-title" className="mt-2 font-serif text-3xl tracking-[-0.04em]">A visual record of your practice.</h2></div>
+      <p className="max-w-sm text-sm leading-6 text-[#8d9890]">Each bright mark is a day you put an idea into the world.</p>
+    </div>
+    <div className="mt-7 grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+        <div className="writing-stat"><strong>{posts.length}</strong><span>total notes</span></div>
+        <div className="writing-stat"><strong>{activeDays}</strong><span>active days</span></div>
+        {monthSummary.slice(0, 2).map(([month, count]) => <div className="writing-stat" key={month}><strong>{count}</strong><span>{month}</span></div>)}
+      </div>
+      <div className="overflow-hidden">
+      <div className="blog-contribution-months" aria-hidden="true">{monthLabels.map((month) => <span key={`${month.label}-${month.index}`}>{month.label}</span>)}</div>
+      <div className="blog-contribution-grid" aria-label="Blog publishing activity for the last year">{Array.from({ length: 53 }, (_, weekIndex) => <div className="blog-contribution-week" key={weekIndex}>{Array.from({ length: 7 }, (_, dayIndex) => { const day = days[weekIndex * 7 + dayIndex]; return day ? <span className={`blog-contribution-cell ${day.count > 0 ? 'has-entry' : ''}`} title={`${day.count} ${day.count === 1 ? 'entry' : 'entries'} on ${formatDate(day.key)}`} key={day.key} /> : <span className="blog-contribution-cell" aria-hidden="true" key={`${weekIndex}-${dayIndex}`} />; })}</div>)}</div>
+      <div className="mt-3 flex items-center justify-end gap-2 text-xs text-[#718078]"><span className="blog-contribution-cell blog-contribution-legend-cell has-entry" /><span>Blog published</span></div>
+      </div>
+    </div>
+    {recentPosts.length > 0 && <div className="mt-8"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#8d9890]">Latest notes</p><div className="mt-3 grid gap-2 md:grid-cols-3">{recentPosts.map((post) => <div className="writing-activity-item" key={post.id}><span className="writing-activity-dot" /><div><span className="block truncate text-sm text-[#c2cbc4]">{post.title}</span><time className="mt-1 block text-xs text-[#8d9890]">{formatDate(post.published_at)}</time></div></div>)}</div></div>}
+  </section>;
 }
 
 function PostBody({ body }) {

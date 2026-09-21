@@ -53,6 +53,10 @@ export default function App() {
   }, [activeView, pendingSection]);
 
   useEffect(() => {
+    if (activeView === 'blog') window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeView]);
+
+  useEffect(() => {
     const revealItems = document.querySelectorAll('[data-reveal]');
     const observer = new IntersectionObserver(
       (entries) => {

@@ -85,6 +85,115 @@ section {
   white-space: pre-wrap;
 }
 
+.blog-contribution-grid {
+  display: flex;
+  width: 100%;
+  gap: 0.28rem;
+}
+
+.blog-contribution-months {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.35rem;
+  color: #718078;
+  font-size: 0.68rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.blog-contribution-months span {
+  flex: 0 0 auto;
+}
+
+.blog-contribution-week {
+  display: grid;
+  flex: 1;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.blog-contribution-cell {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 0.18rem;
+  background: rgb(255 255 255 / 0.08);
+}
+
+@media (max-width: 640px) {
+  .blog-contribution-grid,
+  .blog-contribution-months {
+    gap: 0.12rem;
+  }
+
+  .blog-contribution-week {
+    gap: 0.12rem;
+  }
+
+  .blog-contribution-cell {
+    border-radius: 0.08rem;
+  }
+
+  .blog-contribution-months {
+    font-size: 0.52rem;
+  }
+}
+
+.blog-contribution-cell.has-entry {
+  background: #b8f2d2;
+}
+
+.blog-contribution-legend-cell {
+  width: 0.68rem;
+  height: 0.68rem;
+  flex: 0 0 0.68rem;
+  aspect-ratio: auto;
+}
+
+.writing-stat {
+  display: flex;
+  min-height: 5.5rem;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 2px solid rgb(143 194 175 / 0.28);
+  padding: 0.9rem 1rem;
+  background: rgb(255 255 255 / 0.025);
+}
+
+.writing-stat strong {
+  color: #e8ece8;
+  font-family: Georgia, serif;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.writing-stat span {
+  margin-top: 0.45rem;
+  color: #8d9890;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.writing-activity-item {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+  padding: 0.8rem 0;
+}
+
+.writing-activity-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  margin-top: 0.35rem;
+  border-radius: 999px;
+  background: #b8f2d2;
+}
+
 .blog-ticker-item {
   min-height: 10rem;
   animation: blog-news-cycle 12s linear both;
