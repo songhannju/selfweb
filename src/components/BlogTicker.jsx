@@ -26,7 +26,7 @@ export default function BlogTicker({ onOpenBlog }) {
     let isMounted = true;
     supabase
       .from('blog_posts')
-      .select('id, title, body, published_at, created_at')
+      .select('id, title, body, image_url, published_at, created_at')
       .order('created_at', { ascending: false })
       .limit(8)
       .then(({ data }) => {
