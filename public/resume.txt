@@ -1,5 +1,5 @@
 Han Song
-Alpharetta, Georgia
+Alpharetta, GA
 Email: songhannju@gmail.com
 Tel: (864) 207-2627
 
@@ -18,7 +18,7 @@ Senior Software Engineer — Dec 2022 - Sep 2026
 
 Fiserv Inc.
 Senior QA Automation Engineer — Jan 2021 - Dec 2022
-QA Automation Engineer — July 2018 - Dec 2021
+QA Automation Engineer — July 2018 - Dec 2020
 - Built banking web-services automation frameworks for SOAP and REST APIs; partnered with developers, test engineers, and product owners to design, implement, and maintain automated test suites, reducing bugs 10-25% year over year.
 - Consolidated and tracked defect backlogs across the business unit and reported bug-tracking and defect-resolution metrics to the team and IT management, improving bug-tracking efficiency by 50%.
 - Designed and executed validation for a security-gateway migration across impacted applications and environments.
@@ -34,5 +34,5 @@ Education
 - B.S., Biochemistry — Nanjing University
 
 Skills
-Languages: Java, C#, JavaScript, HTML
-Technologies and knowledge: Azure, Jira, SQL, ASP.NET, Postman, SoapSonar, Harness, GitHub
+Languages: Java, C#, JavaScript, HTML, Python
+Technologies: Azure, Jira, SQL, ASP.NET, Postman, SoapSonar, Harness, GitHub, React, NoSQL, Visual Studio, GitHub Copilot, Docker, GitLab, microservices, RESTful APIs, Jenkins
