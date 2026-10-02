@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import SoftAurora from './components/SoftAurora';
 import Blog from './components/Blog';
 import BlogTicker from './components/BlogTicker';
+import { notifyVisit } from './lib/notifyVisit';
 
 const skills = ['Java', 'C#', 'JavaScript', 'HTML', 'Azure', 'Jira', 'SQL', 'ASP.NET', 'Postman', 'SoapSonar', 'Harness', 'GitHub'];
 
@@ -54,6 +55,7 @@ export default function App() {
 
   useEffect(() => {
     if (activeView === 'blog') window.scrollTo({ top: 0, behavior: 'instant' });
+    notifyVisit(activeView);
   }, [activeView]);
 
   useEffect(() => {
