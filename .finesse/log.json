@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-10-01",
+    "page": "selfweb (portfolio, redesign)",
+    "register": "brand",
+    "axes": {
+      "A_palette": "tinted graphite + single mint signal",
+      "B_type": "Geist 600/300 display, Geist Mono for data",
+      "C_layout": "type-led editorial grid: sticky label rail + content, expandable work rows, oversized contact",
+      "D_engine": "Canvas 2D event tape (idempotent payment pipeline) + CSS scroll-driven timeline rail",
+      "E_metaphor": "payment ledger / checkpointed pipeline"
+    },
+    "motion": { "signature": "particle-field / event tape", "scroll": "progress rail", "interaction": "expand/collapse + tape inspector", "close": "split-char email rise" },
+    "dials": { "SOUL": 7, "SPECTACLE": 6, "DENSITY": 4 }
+  }
+]

@@ -51,20 +51,22 @@ export default function BlogTicker({ onOpenBlog }) {
   const post = posts[activeIndex];
 
   return (
-    <aside className="blog-ticker mt-12 w-full overflow-hidden rounded-3xl border border-[#8fc2af]/20 bg-[linear-gradient(120deg,rgba(20,31,26,0.9),rgba(16,23,20,0.84))] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:p-8" aria-label="Latest blog notes">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#8fc2af]">Latest thinking</p>
-        <button className="text-xs font-semibold uppercase tracking-[0.12em] text-[#b5c0b8] transition hover:text-[#8fc2af]" type="button" onClick={onOpenBlog}>Read all</button>
+    <aside className="note" aria-label="Latest blog note">
+      <div className="note__head">
+        <span>Latest note</span>
+        <button className="link" type="button" onClick={onOpenBlog} style={{ border: 0, padding: 0, background: 'none', color: 'var(--ink)', font: 'inherit', cursor: 'pointer', minHeight: 44 }}>
+          Read the blog <span aria-hidden="true">→</span>
+        </button>
       </div>
-      <div className="blog-ticker-item mt-4 grid gap-5 md:grid-cols-[1fr_220px] md:items-center" key={post.id}>
+      <div className="note__body note__item" key={post.id}>
         <div>
-          <p className="text-xs text-[#8d9890]">{formatDate(post.published_at)}</p>
-          <h3 className="mt-2 font-serif text-2xl tracking-[-0.04em] text-[#e8ece8]">{post.title}</h3>
-          <p className="mt-2 text-sm leading-7 text-[#9aa59d]">{getExcerpt(post.body)}</p>
+          <time className="mono" style={{ color: 'var(--ink-3)' }}>{formatDate(post.published_at)}</time>
+          <h3 className="note__title">{post.title}</h3>
+          <p className="note__excerpt">{getExcerpt(post.body)}</p>
         </div>
-        <img className="h-28 w-full rounded-xl border border-white/15 object-cover opacity-90 shadow-[0_12px_28px_rgba(0,0,0,0.2)] saturate-[0.72]" src={getBlogLandscape(post.image_url, activeIndex)} alt="" aria-hidden="true" />
+        <img className="note__img" src={getBlogLandscape(post.image_url, activeIndex)} alt="" aria-hidden="true" loading="lazy" />
       </div>
-      {posts.length > 1 && <div className="mt-5 flex gap-1.5" aria-hidden="true">{posts.map((item, index) => <span className={`h-1 rounded-full transition-all duration-500 ${index === activeIndex ? 'w-7 bg-[#8fc2af]' : 'w-2 bg-white/15'}`} key={item.id} />)}</div>}
+      {posts.length > 1 && <div className="note__dots" aria-hidden="true">{posts.map((item, index) => <span className={index === activeIndex ? 'is-active' : ''} key={item.id} />)}</div>}
     </aside>
   );
 }
